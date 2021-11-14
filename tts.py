@@ -56,7 +56,7 @@ def generate_audio(input_text_path: str, words_to_replace_path: str, pause_dur: 
     output_text_path = f'./Grad-TTS/temp/{get_file_name(input_text_path)}_fix.txt'
     replace_words(input_text_path, words_to_replace_path, output_text_path)
 
-    os.system(f'python inference.py -f {output_text_path} -c ./Grad-TTS/checkpts/grad-tts.pt')
+    os.system(f'python ./Grad-TTS/inference.py -f {output_text_path} -c ./Grad-TTS/checkpts/grad-tts.pt')
 
 
     merge_paragraphs(get_file_name(input_text_path), pause_dur)

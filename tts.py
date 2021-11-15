@@ -10,7 +10,9 @@ def get_file_name(input_text_path):
 
 
 def build_align():
-    os.system('python ./Grad-TTS/model/monotonic_align/setup.py build_ext --inplace')
+    os.system('cd ./model/monotonic_align')
+    os.system('python setup.py build_ext --inplace')
+    os.system('cd ../..')
 
 
 def install_pretrained():
@@ -24,7 +26,7 @@ def replace_words(input_text_path=None, words_to_replace_path=None, output_file=
     with open(input_text_path, 'r', encoding='utf-8') as file:
         filedata = file.read()
 
-    with open(words_to_replace) as json_file:
+    with open(words_to_replace_path) as json_file:
         word_replacement = json.load(json_file)
         for word, replacement in word_replacement.items():
             filedata = filedata.replace(word, replacement)
@@ -34,32 +36,33 @@ def replace_words(input_text_path=None, words_to_replace_path=None, output_file=
 
 
 def merge_paragraphs(input_file_name: str, pause_dur: int):
-    sound = AudioSegment.from_wav(f'./Grad-TTS/temp/{input_file_name}_0_par.wav')
-    sound.export(f'./Grad-TTS/out/{input_file_name}_full.wav', format='wav')
-    par_count = len(glob.glob1('./Grad-TTS/temp/', '*.wav'))
+    sound = AudioSegment.from_wav(f'./temp/{input_file_name}_0_par.wav')
+    sound.export(f'./out/{input_file_name}_full.wav', format='wav')
+    par_count = len(glob.glob1('./temp/', '*.wav'))
 
     for i in range(1, par_count):
-        sound = AudioSegment.from_wav(f'./Grad-TTS/out/{input_file_name}_full.wav')
-        silence = AudioSegment.from_wav(f'./Grad-TTS/pause/{pause_dur}s.wav')
-        par = AudioSegment.from_wav(f'./Grad-TTS/temp/{input_file_name}_{i}_par.wav')
+        sound = AudioSegment.from_wav(f'./out/{input_file_name}_full.wav')
+        silence = AudioSegment.from_wav(f'./pause/{pause_dur}s.wav')
+        par = AudioSegment.from_wav(f'./temp/{input_file_name}_{i}_par.wav')
 
         combined_sounds = sound + silence + par
-        combined_sounds.export(f'./Grad-TTS/out/{input_file_name}_full.wav', format='wav')
+        combined_sounds.export(f'./out/{input_file_name}_full.wav', format='wav')
 
 
 def generate_audio(input_text_path: str, words_to_replace_path: str, pause_dur: int=3):
+    os.system('cd ./Grad-TTS')
     build_align()
-    if not (os.path.exists('./Grad-TTS/checkpts/hifigan.pt') or
-            os.path.exists('./Grad-TTS/checkpts/grad-tts.pt')):
+    if not (os.path.exists('./checkpts/hifigan.pt') or
+            os.path.exists('./checkpts/grad-tts.pt')):
         install_pretrained()
 
-    output_text_path = f'./Grad-TTS/temp/{get_file_name(input_text_path)}_fix.txt'
+    output_text_path = f'./temp/{get_file_name(input_text_path)}_fix.txt'
     replace_words(input_text_path, words_to_replace_path, output_text_path)
 
-    os.system(f'python ./Grad-TTS/inference.py -f {output_text_path} -c ./Grad-TTS/checkpts/grad-tts.pt')
+    os.system(f'python ./inference.py -f {output_text_path} -c ./checkpts/grad-tts.pt')
 
 
     merge_paragraphs(get_file_name(input_text_path), pause_dur)
-    os.system('rm -f ./Grad-TTS/temp/*')
-
+    os.system('rm -f ./temp/*')
+    os.system('cd ..')
     return f'./Grad-TTS/out/{get_file_name(input_text_path)}_full.wav'

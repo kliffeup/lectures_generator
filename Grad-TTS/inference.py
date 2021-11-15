@@ -92,4 +92,4 @@ if __name__ == '__main__':
 
             audio = (vocoder.forward(y_dec).cpu().squeeze().clamp(-1, 1).numpy() * 32768).astype(np.int16)
 
-            write(f'./Grad-TTS/temp/{args.file.split(sep="/")[-1].split(sep=".")[0][:-4]}_{i}_par.wav', 22050, audio)
+            write(f'./temp/{args.file.split(sep="/")[-1].split(sep=".")[0][:-4]}_{i}_par.wav', 22050, audio)

@@ -50,7 +50,7 @@ def merge_paragraphs(input_file_name: str, pause_dur: int):
 
 
 def generate_audio(input_text_path: str, words_to_replace_path: str, pause_dur: int=3):
-    os.system('cd ./Grad-TTS')
+    os.chdir(os.path.abspath('Grad-TTS/'))
     build_align()
     if not (os.path.exists('./checkpts/hifigan.pt') or
             os.path.exists('./checkpts/grad-tts.pt')):
@@ -64,5 +64,5 @@ def generate_audio(input_text_path: str, words_to_replace_path: str, pause_dur: 
 
     merge_paragraphs(get_file_name(input_text_path), pause_dur)
     os.system('rm -f ./temp/*')
-    os.system('cd ..')
+    os.chdir('lectures_generator/')
     return f'./Grad-TTS/out/{get_file_name(input_text_path)}_full.wav'

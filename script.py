@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from tts import generate_audio
 
@@ -15,4 +16,4 @@ parser.add_argument('-p', '--pause_dur', type=int, required=False,
                     help='pause duration between two paragraphs')
 
 args = parser.parse_args()
-generate_audio(args.file, args.words_to_replace, args.pause_dur)
+generate_audio(os.path.abspath(args.file), os.path.abspath(args.words_to_replace), args.pause_dur)

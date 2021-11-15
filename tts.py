@@ -10,9 +10,9 @@ def get_file_name(input_text_path):
 
 
 def build_align():
-    os.system('cd ./model/monotonic_align')
+    os.chdir(os.path.abspath('model/monotonic_align'))
     os.system('python setup.py build_ext --inplace')
-    os.system('cd ../..')
+    os.chdir('../..')
 
 
 def install_pretrained():
@@ -64,5 +64,5 @@ def generate_audio(input_text_path: str, words_to_replace_path: str, pause_dur: 
 
     merge_paragraphs(get_file_name(input_text_path), pause_dur)
     os.system('rm -f ./temp/*')
-    os.chdir('lectures_generator/')
+    os.chdir('..')
     return f'./Grad-TTS/out/{get_file_name(input_text_path)}_full.wav'

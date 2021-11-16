@@ -63,7 +63,7 @@ if __name__ == '__main__':
     vocoder.remove_weight_norm()
 
     with open(args.file, 'r', encoding='utf-8') as file:
-        text = file.read().replace('\n', '')
+        text = file.read().replace('\n', ' ')
         texts = text.split(sep='[paragraph]')
         texts = texts if texts[0] else texts[1:]
     cmu = cmudict.CMUDict('./resources/cmu_dictionary')

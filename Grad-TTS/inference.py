@@ -89,7 +89,7 @@ if __name__ == '__main__':
             x_lengths = torch.LongTensor([x.shape[-1]]).cuda()
 
             y_enc, y_dec, attn = generator.forward(x, x_lengths, n_timesteps=args.timesteps, temperature=1.5,
-                                                   stoc=False, spk=spk, length_scale=0.91)
+                                                   stoc=False, spk=spk, length_scale=1.)
 
             audio = (vocoder.forward(y_dec).cpu().squeeze().clamp(-1, 1).numpy() * 32768).astype(np.int16)
 

@@ -1,5 +1,6 @@
 import argparse
 import os
+import shutil
 
 from tts import generate_audio
 
@@ -16,8 +17,11 @@ parser.add_argument('-p', '--pause_dur', type=int, required=False,
                     help='pause duration between two paragraphs')
 
 args = parser.parse_args()
-generate_audio(os.path.join(os.path.abspath('Grad-TTS'), '..',
-                            os.path.abspath(args.file)),
-               os.path.join(os.path.abspath('Grad-TTS'), '..',
-                            os.path.abspath(args.words_to_replace)),
-               args.pause_dur)
+output_wav_path = generate_audio(os.path.join(os.path.abspath('Grad-TTS'), '..',
+                                              os.path.abspath(args.file)),
+                                 os.path.join(os.path.abspath('Grad-TTS'), '..',
+                                              os.path.abspath(args.words_to_replace)),
+                                 args.pause_dur)
+
+os.rename(output_wav_path, f'./MakeItTalk/examples/{output_wav_path.split(sep="/")[-1]}')
+shutil.copyfile(args.image, f'./MakeItTalk/examples/{args.image.split(sep="/")[-1]}')

@@ -6,18 +6,18 @@ def install_weights():
         os.mkdir('examples/ckpt')
 
     os.system(
-        'gdown https://drive.google.com/uc?id=1ZiwPp_h62LtjU0DwpelLUoodKPR85K7x ' +
-        '-O examples/ckpt/ckpt_autovc.pth',
+        'gdown https://drive.google.com/uc?id=1ZiwPp_h62LtjU0DwpelLUoodKPR85K7x' +
+        ' -O examples/ckpt/ckpt_autovc.pth',
     )
 
     os.system(
         'gdown https://drive.google.com/uc?id=1r3bfEvTVl6pCNw5xwUhEglwDHjWtAqQp' +
-        '-O examples/ckpt/ckpt_content_branch.pth',
+        ' -O examples/ckpt/ckpt_content_branch.pth',
     )
 
     os.system(
         'gdown https://drive.google.com/uc?id=1rV0jkyDqPW-aDJcj7xSO6Zt1zSXqn1mu' +
-        '-O examples/ckpt/ckpt_speaker_branch.pth',
+        ' -O examples/ckpt/ckpt_speaker_branch.pth',
     )
 
     os.system(

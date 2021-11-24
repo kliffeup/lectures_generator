@@ -3,10 +3,14 @@ import os
 import shutil
 
 from tts import generate_audio
+from video_generate import generate_video
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--file', type=str, required=True,
                     help='path to a file with texts to synthesize')
+
+parser.add_argument('-i', '--image', type=str, required=True,
+                    help='path to a image .jpg file')
 
 parser.add_argument('-w', '--words_to_replace', type=str, required=False,
                     default='./words_to_replace.json',
@@ -25,3 +29,4 @@ output_wav_path = generate_audio(os.path.join(os.path.abspath('Grad-TTS'), '..',
 
 os.rename(output_wav_path, f'./MakeItTalk/examples/{output_wav_path.split(sep="/")[-1]}')
 shutil.copyfile(args.image, f'./MakeItTalk/examples/{args.image.split(sep="/")[-1]}')
+generate_video(args.image.split(sep="/")[-1])

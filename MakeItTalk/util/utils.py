@@ -368,7 +368,7 @@ def add_naive_eye(fl):
     close_time_stamp = [30]
     t = 30
     while (t < length - 1 - K2):
-        t += 60
+        t += 90
         t += np.random.randint(30, 90)
         if (t < length - 1 - K2):
             close_time_stamp.append(t)

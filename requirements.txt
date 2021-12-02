@@ -1,6 +1,2 @@
 pydub
-json
-glob
-os
-argparse
 gdown

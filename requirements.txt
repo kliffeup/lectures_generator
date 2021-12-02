@@ -3,3 +3,4 @@ gdown
 numpy
 Cython
 scipy
+torch

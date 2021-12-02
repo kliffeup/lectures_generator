@@ -2,3 +2,4 @@ pydub
 gdown
 numpy
 Cython
+scipy

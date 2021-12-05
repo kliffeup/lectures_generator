@@ -1,32 +1,32 @@
-import argparse
-import os
-import shutil
+from argparse import ArgumentParser
+from os.path import abspath, join
+from typing import Any
 
-from tts import generate_audio
-from video_generate import generate_video
+from img2vid import generate_video
+from tts import generate_speech
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--file', type=str, required=True,
-                    help='path to a file with texts to synthesize')
 
-parser.add_argument('-i', '--image', type=str, required=True,
-                    help='path to a image .jpg file')
+parser = ArgumentParser()
+parser.add_argument('-t', '--text', type=str, required=True,
+                    help='path to a file with texts to synthesize speech')
 
-parser.add_argument('-w', '--words_to_replace', type=str, required=False,
-                    default='./words_to_replace.json',
+parser.add_argument('-i', '--image', type=str, required=False,
+                    default='./MakeItTalk/examples/monalisa2.jpg',
+                    help='path to a image .jpg file, required resolution 256x256')
+
+parser.add_argument('-r', '--replacements', type=Any, required=False,
+                    default=None,
                     help='path to a json file with words to replace')
 
-parser.add_argument('-p', '--pause_dur', type=int, required=False,
+parser.add_argument('-p', '--pause_duration', type=int, required=False,
                     default=3,
-                    help='pause duration between two paragraphs')
+                    help='pause duration between each two paragraphs')
 
 args = parser.parse_args()
-output_wav_path = generate_audio(os.path.join(os.path.abspath('Grad-TTS'), '..',
-                                              os.path.abspath(args.file)),
-                                 os.path.join(os.path.abspath('Grad-TTS'), '..',
-                                              os.path.abspath(args.words_to_replace)),
-                                 args.pause_dur)
+generate_speech(
+    join(abspath('Grad-TTS'), '..', abspath(args.text)),
+    join(abspath('Grad-TTS'), '..', abspath(args.replacements)),
+    args.pause_duration,
+)
 
-os.rename(output_wav_path, f'./MakeItTalk/examples/{output_wav_path.split(sep="/")[-1]}')
-shutil.copyfile(args.image, f'./MakeItTalk/examples/{args.image.split(sep="/")[-1]}')
-generate_video(args.image.split(sep="/")[-1])
+generate_video(args.image)

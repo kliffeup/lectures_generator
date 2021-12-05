@@ -1,6 +1,6 @@
 pydub
-json
-glob
-os
-argparse
 gdown
+numpy
+Cython
+scipy
+torch

@@ -26,7 +26,7 @@ def build_align() -> None:
 
 def install_pretrained() -> None:
     """
-    Install pretrained model weights.
+    Install pre-trained model weights.
     """
     system('gdown --id 15AeZO2Zo4NBl7PG8oGgfQk0J1PpjaOgI ' +
               '-O ./Grad-TTS/checkpts/hifigan.pt')
@@ -64,26 +64,26 @@ def replace_words(
 def merge_paragraphs(input_file_name: str, pause_dur: int) -> None:
     """
     Join audio files which correspond text paragraphs together putting pauses between them.
+    Save result in MakeItTalk/examples.
 
     :param input_file_name:
     :param pause_dur: pause duration, possible values: 3, 5
     """
-    sound = AudioSegment.from_wav(f'./temp/{input_file_name}_0_par.wav')
-    sound.export(f'./out/{input_file_name}_full.wav', format='wav')
+    res_audio = AudioSegment.from_wav(f'./temp/{input_file_name}_0_par.wav')
+    silence = AudioSegment.from_wav(f'./pause/{pause_dur}s.wav')
     par_count = len(glob1('./temp/', '*.wav'))
 
     for i in range(1, par_count):
-        sound = AudioSegment.from_wav(f'./out/{input_file_name}_full.wav')
-        silence = AudioSegment.from_wav(f'./pause/{pause_dur}s.wav')
-        par = AudioSegment.from_wav(f'./temp/{input_file_name}_{i}_par.wav')
+        cur_paragraph = AudioSegment.from_wav(f'./temp/{input_file_name}_{i}_par.wav')
+        res_audio = res_audio + silence + cur_paragraph
 
-        combined_sounds = sound + silence + par
-        combined_sounds.export(f'./out/{input_file_name}_full.wav', format='wav')
+    res_audio.export(f'./../MakeItTalk/examples/{input_file_name}_full.wav', format='wav')
 
 
 def generate_speech(input_text_path: str, replacements_path: Any=None, pause_dur: int=3) -> None:
     """
     Generate audio by given input text file.
+    Save result in MakeItTalk/examples.
 
     :param input_text_path: path to input text file
     :param replacements_path: path to .json file with pairs 'word: replacement'
@@ -97,11 +97,7 @@ def generate_speech(input_text_path: str, replacements_path: Any=None, pause_dur
 
     output_text_path = f'./temp/{get_file_name(input_text_path)}_fix.txt'
     replace_words(input_text_path, replacements_path, output_text_path)
-
     system(f'python ./inference.py -f {output_text_path} -c ./checkpts/grad-tts.pt')
-
-
     merge_paragraphs(get_file_name(input_text_path), pause_dur)
     system('rm -f ./temp/*')
     chdir('..')
-    return f'./Grad-TTS/out/{get_file_name(input_text_path)}_full.wav'

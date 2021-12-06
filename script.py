@@ -14,6 +14,10 @@ parser.add_argument('-i', '--image', type=str, required=False,
                     default='./MakeItTalk/examples/monalisa2.jpg',
                     help='path to a image .jpg file, required resolution 256x256')
 
+parser.add_argument('-o', '--output', type=str, required=False,
+                    default='./',
+                    help='path to output folder to save video')
+
 parser.add_argument('-r', '--replacements', type=Any, required=False,
                     default=None,
                     help='path to a json file with words to replace')
@@ -29,4 +33,6 @@ generate_speech(
     args.pause_duration,
 )
 
-generate_video(args.image)
+generate_video(
+    args.image, args.output[:-1] if args.output[-1] == '/' else args.output,
+)

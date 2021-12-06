@@ -55,7 +55,10 @@ def move_input_image(input_image_path: str) -> None:
     )
 
 
-def generate_video(input_image_path: str='./MakeItTalk/examples/monalisa2.jpg') -> None:
+def generate_video(
+        input_image_path: str='./MakeItTalk/examples/monalisa2.jpg',
+        output_folder: str='.',
+) -> None:
     """
     Generate a video where human face from input image voices the speech
     synthesised in the TTS part.
@@ -78,5 +81,5 @@ def generate_video(input_image_path: str='./MakeItTalk/examples/monalisa2.jpg') 
     if not exists('./examples/dump/emb.pickle'):
         install_embeddings()
 
-    system(f'python ./main_end2end.py --jpg {input_image_path}')
+    system(f'python ./main_end2end.py --jpg {input_image_path} --output_folder {output_folder}')
     chdir('..')

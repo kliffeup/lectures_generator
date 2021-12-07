@@ -7,4 +7,4 @@ inflect==5.0.2
 Unidecode==1.1.2
 librosa==0.8.0
 scipy==1.5.4
-tqdm
+tqdm>=4.62.3

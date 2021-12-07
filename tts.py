@@ -35,9 +35,9 @@ def install_pretrained() -> None:
 
 
 def replace_words(
-        input_text_path: Any=None,
-        replacements_file_path: Any=None,
-        output_file_path: Any=None,
+    input_text_path: Any=None,
+    replacements_file_path: Any=None,
+    output_file_path: Any=None,
 ) -> None:
     """
     Replace words in input text file with replacements specified in .json file.

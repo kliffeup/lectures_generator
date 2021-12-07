@@ -15,10 +15,10 @@ parser.add_argument('-i', '--image', type=str, required=False,
                     help='path to a image .jpg file, required resolution 256x256')
 
 parser.add_argument('-o', '--output', type=str, required=False,
-                    default='./',
+                    default='.',
                     help='path to output folder to save video')
 
-parser.add_argument('-r', '--replacements', type=Any, required=False,
+parser.add_argument('-r', '--replacements', type=str, required=False,
                     default=None,
                     help='path to a json file with words to replace')
 
@@ -29,7 +29,8 @@ parser.add_argument('-p', '--pause_duration', type=int, required=False,
 args = parser.parse_args()
 generate_speech(
     join(abspath('Grad-TTS'), '..', abspath(args.text)),
-    join(abspath('Grad-TTS'), '..', abspath(args.replacements)),
+    join(abspath('Grad-TTS'), '..', abspath(args.replacements))
+    if args.replacements is not None else None,
     args.pause_duration,
 )
 

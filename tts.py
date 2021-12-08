@@ -91,7 +91,8 @@ def generate_speech(input_text_path: str, replacements_path: Any=None, pause_dur
     :return: path to output .wav file with synthesised speech
     """
     chdir(abspath('Grad-TTS/'))
-    build_align()
+    if not (exists('./model/monotonic_align/build') and exists('./model/monotonic_align/model')):
+        build_align()
     if not (exists('./checkpts/hifigan.pt') or exists('./checkpts/grad-tts.pt')):
         install_pretrained()
 

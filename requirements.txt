@@ -17,6 +17,6 @@ pynormalize>=0.1.4
 soundfile>=0.10.3
 pysptk>=0.1.18
 pyworld>=0.3.0
-resemblyzer>=0.1.1
+resemblyzer>=0.1.1.dev0
 tensorboardX>=2.4.1
 gdown>=4.2.0

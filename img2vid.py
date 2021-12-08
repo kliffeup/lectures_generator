@@ -81,5 +81,5 @@ def generate_video(
     if not exists('./examples/dump/emb.pickle'):
         install_embeddings()
 
-    system(f'python ./main_end2end.py --jpg {input_image_path} --output_folder {output_folder}')
+    system(f'python ./main_end2end.py --jpg {input_image_path.split(sep="/")[-1]} --save_output {output_folder}')
     chdir('..')

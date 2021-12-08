@@ -53,6 +53,7 @@ parser.add_argument('--reuse_train_emb_list', type=str, nargs='+',
 parser.add_argument('--add_audio_in', default=False, action='store_true')
 parser.add_argument('--comb_fan_awing', default=False, action='store_true')
 parser.add_argument('--output_folder', type=str, default='examples')
+parser.add_argument('--save_output', type=str, default='.')
 
 parser.add_argument('--test_end2end', default=True, action='store_true')
 parser.add_argument('--dump_dir', type=str, default='', help='')
@@ -108,7 +109,7 @@ ains = [item for item in ains if item is not 'tmp.wav']
 ains.sort()
 for ain in ains:
     os.system(
-        'ffmpeg -y -loglevel error -i examples/{} -ar 22050 examples/tmp.wav'.format(
+        'ffmpeg -y -loglevel error -i examples/{} -ar 16000 examples/tmp.wav'.format(
             ain))
     shutil.copyfile('examples/tmp.wav', 'examples/{}'.format(ain))
 
@@ -118,7 +119,7 @@ for ain in ains:
     me, ae = get_spk_emb('examples/{}'.format(ain))
     au_emb.append(me.reshape(-1))
 
-    print('Processing audio file', ain)
+    # print('Processing audio file', ain)
     c = AutoVC_mel_Convertor('examples')
 
     au_data_i = c.convert_single_wav_to_autovc_input(
@@ -189,5 +190,5 @@ for i in range(0, len(fls)):
     with torch.no_grad():
         model.single_test(jpg=img, fls=fl, filename=fls[i],
                           prefix=opt_parser.jpg.split('.')[0])
-        print('finish image2image gen')
+        # print('finish image2image gen')
     os.remove(os.path.join('examples', fls[i]))

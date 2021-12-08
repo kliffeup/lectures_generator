@@ -30,7 +30,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class Image_translation_block():
 
     def __init__(self, opt_parser, single_test=False):
-        print('Run on device {}'.format(device))
+        # print('Run on device {}'.format(device))
 
         # for key in vars(opt_parser).keys():
         #     print(key, ':', vars(opt_parser)[key])
@@ -55,7 +55,7 @@ class Image_translation_block():
                 del tmp
 
         if torch.cuda.device_count() > 1:
-            print("Let's use", torch.cuda.device_count(), "GPUs in G mode!")
+            # print("Let's use", torch.cuda.device_count(), "GPUs in G mode!")
             self.G = nn.DataParallel(self.G)
 
         self.G.to(device)
@@ -90,8 +90,7 @@ class Image_translation_block():
             self.criterionL1 = nn.L1Loss()
             self.criterionVGG = VGGLoss()
             if torch.cuda.device_count() > 1:
-                print("Let's use", torch.cuda.device_count(),
-                      "GPUs in VGG model!")
+                # print("Let's use", torch.cuda.device_count(), GPUs in VGG model!")
                 self.criterionVGG = nn.DataParallel(self.criterionVGG)
             self.criterionVGG.to(device)
 
@@ -131,9 +130,9 @@ class Image_translation_block():
                                       if k in model_weights}
                 model_weights.update(pretrained_weights)
                 model_ft.load_state_dict(model_weights)
-            print('Load AWing model sucessfully')
+            # print('Load AWing model sucessfully')
             if torch.cuda.device_count() > 1:
-                print("Let's use", torch.cuda.device_count(), "GPUs for AWing!")
+                # print("Let's use", torch.cuda.device_count(), "GPUs for AWing!")
                 self.fa_model = nn.DataParallel(model_ft).to(self.device).eval()
             else:
                 self.fa_model = model_ft.to(self.device).eval()
@@ -271,14 +270,13 @@ class Image_translation_block():
             if (i % self.opt_parser.ckpt_last_freq == 0):
                 self.__save_model__('last', epoch)
 
-            print(
-                "Epoch {}, Batch {}/{}, loss {:.4f}, l1 {:.4f}, vggloss {:.4f}, styleloss {:.4f} time {:.4f}".format(
-                    epoch, i, len(self.dataset) // self.opt_parser.batch_size,
-                    loss.cpu().detach().numpy(),
-                    loss_l1.cpu().detach().numpy(),
-                    loss_vgg.cpu().detach().numpy(),
-                    loss_style.cpu().detach().numpy(),
-                              time.time() - st_batch))
+            # print("Epoch {}, Batch {}/{}, loss {:.4f}, l1 {:.4f}, vggloss {:.4f}, styleloss {:.4f} time {:.4f}".format(
+            #         epoch, i, len(self.dataset) // self.opt_parser.batch_size,
+            #         loss.cpu().detach().numpy(),
+            #         loss_l1.cpu().detach().numpy(),
+            #         loss_vgg.cpu().detach().numpy(),
+            #         loss_style.cpu().detach().numpy(),
+            #                   time.time() - st_batch))
 
             g_time += time.time() - st_batch
 
@@ -286,8 +284,7 @@ class Image_translation_block():
                 if (i >= 100):
                     break
 
-        print('Epoch time usage:', time.time() - st_epoch, 'I/O time usage:',
-              time.time() - st_epoch - g_time, '\n=========================')
+        # print('Epoch time usage:', time.time() - st_epoch, 'I/O time usage:', time.time() - st_epoch - g_time, '\n=========================')
         if (self.opt_parser.test_speed):
             exit(0)
         if (epoch % self.opt_parser.ckpt_epoch_freq == 0):
@@ -331,7 +328,7 @@ class Image_translation_block():
 
         self.G.eval()
         for i, batch in enumerate(self.dataloader):
-            print(i, 50)
+            # print(i, 50)
             if (i > 50):
                 break
 
@@ -483,18 +480,18 @@ class Image_translation_block():
                 writer.write(frame.astype(np.uint8))
 
         writer.release()
-        print('Time - only video:', time.time() - st)
+        # print('Time - only video:', time.time() - st)
 
         if (filename is None):
             filename = 'v'
         os.system(
             'ffmpeg -loglevel error -y -i out.mp4 -i {} -pix_fmt yuv420p -strict -2 ./../{}/{}_{}.mp4'.format(
                 'examples/' + filename[9:-16] + '.wav',
-                self.opt_parser.output_folder,
-                prefix, filename[:-4]))
+                self.opt_parser.save_output,
+                prefix, filename[9:-21]))
         # os.system('rm out.mp4')
 
-        print('Time - ffmpeg add audio:', time.time() - st)
+        # print('Time - ffmpeg add audio:', time.time() - st)
 
 
 

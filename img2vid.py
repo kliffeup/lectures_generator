@@ -1,10 +1,10 @@
 from os import chdir, devnull, mkdir, system
 from os.path import abspath, exists
-from shutil import copyfile
+from shutil import copyfile, SameFileError
 from subprocess import STDOUT, check_call, getstatusoutput
 
 
-def install_weights():
+def install_weights() -> None:
     """
     Install pre-trained model weights.
     """
@@ -32,7 +32,7 @@ def install_weights():
     )
 
 
-def install_embeddings():
+def install_embeddings() -> None:
     """
     Install pre-trained embeddings.
     """
@@ -49,11 +49,13 @@ def move_input_image(input_image_path: str='./MakeItTalk/examples/monalisa2.jpg'
     """
     Copy image to MakeItTalk/examples, for further model work.
     """
-    if input_image_path != './MakeItTalk/examples/monalisa2.jpg':
+    try:
         copyfile(
             input_image_path,
             f'./MakeItTalk/examples/{input_image_path.split(sep="/")[-1]}'
         )
+    except SameFileError:
+        pass
 
 
 def generate_video(

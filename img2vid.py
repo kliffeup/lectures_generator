@@ -45,14 +45,15 @@ def install_embeddings():
     )
 
 
-def move_input_image(input_image_path: str) -> None:
+def move_input_image(input_image_path: str='./MakeItTalk/examples/monalisa2.jpg') -> None:
     """
     Copy image to MakeItTalk/examples, for further model work.
     """
-    copyfile(
-        input_image_path,
-        f'./MakeItTalk/examples/{input_image_path.split(sep="/")[-1]}'
-    )
+    if input_image_path != './MakeItTalk/examples/monalisa2.jpg':
+        copyfile(
+            input_image_path,
+            f'./MakeItTalk/examples/{input_image_path.split(sep="/")[-1]}'
+        )
 
 
 def generate_video(

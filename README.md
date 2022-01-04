@@ -4,6 +4,9 @@ ImageToVideo &amp; TextToSpeech Lectures Generator
 ## Description
 A script that gets a photo of a person and some text as an input and outputs a `.mp4` video of that person saying the text with a woman's voice.
 
+## Google Colab demo
+You can perform script work by running Google Colab Notebook, see `lectures_generator_demo.ipynb` or [demo in Google Colab](https://colab.research.google.com/drive/1xEje2h5xsLXGlxF78ZaaeznmxPeuXti3?usp=sharing).
+
 ## Requirements
 - **CUDA supporting machine**;
 - **Unix-like OS (Linux, Mac OS)**;
@@ -97,4 +100,3 @@ The command-line parameters description:
 - `-o/--output <relative path to output folder>` - **OPTIONAL**. Pass a specified folder to the script to save an output video in. By default pass a current directory of the script;
 - `-p/--pause-duration <pause duration>` - **OPTIONAL**. Pass a pause duration (in seconds) between two paragraphs. Possible values: 3, 5. By default pass 3.
 - `-h/--help` - Shows the **help** message.
-

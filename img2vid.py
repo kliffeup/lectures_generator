@@ -83,4 +83,5 @@ def generate_video(
         install_embeddings()
 
     system(f'python ./main_end2end.py --jpg {input_image_path.split(sep="/")[-1]} --save_output {output_folder}')
+    system('rm -f ./examples/*full_av.mp4 ./examples/*full.wav')
     chdir('..')
